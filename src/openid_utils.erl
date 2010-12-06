@@ -9,6 +9,8 @@
 
 -export([get_tags/2, get_tags/4]).
 
+-define(GVD(E, P, D), proplists:get_value(E, P, D)).
+
 -include("openid.hrl").
 
 get_tags(Content, Tag) ->

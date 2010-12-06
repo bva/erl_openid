@@ -1,4 +1,5 @@
 *~
+*.app
 *.pyc
 Mnesia.*
 sasl_err*

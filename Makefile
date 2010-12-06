@@ -1,6 +1,9 @@
 SRC_DIR = src
 EBIN_DIR = ebin
 INCLUDE_DIR = include
+PKGNAME=erl_openid
+
+MODULES=$(shell ls -1 src/*.erl | awk -F[/.] '{ print "\t\t" $$2 }' | sed '$$q;s/$$/,/g')
 
 SOURCES  = $(wildcard $(SRC_DIR)/*.erl)
 INCLUDES = $(wildcard $(INCLUDE_DIR)/*.hrl)
@@ -15,8 +18,13 @@ ERL_CMD=erl \
 	+W w \
 	$(ERL_EBINS)
 
-all: $(TARGETS)
+all: app $(TARGETS)
 
+app: ebin/$(PKGNAME).app
+
+ebin/$(PKGNAME).app: src/$(PKGNAME).app.src
+	@sed -e 's/{modules, \[\]}/{modules, [$(MODULES)]}/' < $< > $@
+	
 run_prereqs: all
 
 test: run_prereqs
